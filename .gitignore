@@ -1,4 +1,7 @@
 node_modules/
+android/
+.capacitor/
+.idea/
 data/*.json
 .env
 npm-debug.log*
