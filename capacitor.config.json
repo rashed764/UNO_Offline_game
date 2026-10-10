@@ -1,5 +1,11 @@
 {
   "appId": "com.uno.offlinegame",
-  "appName": "uno-offline-game",
-  "webDir": "public"
+  "appName": "UNO",
+  "webDir": "public",
+  "server": {
+    "androidScheme": "http"
+  },
+  "android": {
+    "webContentsDebuggingEnabled": true
+  }
 }
