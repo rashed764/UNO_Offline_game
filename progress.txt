@@ -2,20 +2,14 @@ Step 1: Check project structure, verify dependencies in package.json (express, s
 Step 2: Create startup script scripts/host-public.js to launch server on port 3000 and establish localtunnel with bold colored console logs for public game URL. (Completed)
 Step 3: Verify execution and self-test local & public startup script. (Completed)
 Step 4: Update .ghost-card-anim in public/css/style.css for responsive scaling. (Completed)
-<<<<<<< HEAD
 Step 5: Update animateCardFlight in public/js/game.js to dynamically measure reference card dimensions via getBoundingClientRect(). (Completed)
-=======
-Step 5: Update in public/js/game.js. (Completed)
->>>>>>> f8d8e76b2b7577dd052acc1cd640d68a7851a0c1
 Step 6: Update animateCardFlight in public/js/game.js to clone exact card DOM structure/classes using create3DCardElement. (Completed)
 Step 7: Update .ghost-card-anim in public/css/style.css to unify styling rules with .card-3d. (Completed)
-Step 8 (Micro-step 1.1): Make src/game/GameEngine.js browser-compatible (client-side) while maintaining backward compatibility with Node.js via universal export pattern. (Completed)
-Step 9 (Micro-step 1.2): Make src/game/BotPlayer.js browser-compatible (client-side) while maintaining backward compatibility with Node.js via universal export pattern. (Completed)
-Step 10 (Local Game Controller): Implement and integrate public/js/local-game.js with GameEngine and BotPlayer for 100% offline singleplayer "Vs Computer" mode running directly in the browser. (Completed)
-Step 11 (QR Code & Camera Scanning): Integrated QR code generation (QRCode.js) and camera scanning (html5-qrcode) into public/index.html, created public/js/qr-helper.js, and updated lobby and UI handlers for ShareIt-style Wi-Fi multiplayer. (Completed)
-Step 12 (Local Network & Hotspot Device Connection): Implemented `public/js/local-network.js` for direct hotspot/Wi-Fi peer-to-peer and room connection management via QR code scanning, fully integrated into app.js and game.js. (Completed)
-Step 13 (Capacitor & GitHub Actions APK Pipeline): Configured `capacitor.config.json` with appId `com.uno.offline`, updated `package.json` with Capacitor v5 dependencies, and created `.github/workflows/build-apk.yml` to automatically build and output debug Android APK artifacts. (Completed)
-<<<<<<< HEAD
-Step 14 (Offline APK Loading Screen & Socket Fallback): Fixed offline/APK loading screen hang issue in `public/index.html`, `public/js/game.js`, and `public/js/app.js` by adding a socket fallback mechanism, relative script paths, and direct local mode fallbacks for 100% offline APK/browser compatibility. (Completed)
-=======
->>>>>>> f8d8e76b2b7577dd052acc1cd640d68a7851a0c1
+Step 8 (Micro-step 1.1): The src/game/GameEngine.js file is browser-compatible. (Completed)
+Step 9 (Micro-step 1.2): The src/game/BotPlayer.js file is browser-compatible. (Completed)
+Step 10 (Local Game Controller): Implemented and integrated public/js/local-game.js. (Completed)
+Step 11 (QR Code & Camera Scanning): Integrated QR code generation and scanning into public/index.html and qr-helper.js. (Completed)
+Step 12 (Local Network & Hotspot Connection): Implemented public/js/local-network.js. (Completed)
+Step 13 (Capacitor & GitHub Actions APK Pipeline): Configured capacitor.config.json and GitHub Actions build-apk.yml. (Completed)
+Step 14 (Offline APK Loading Screen & Socket Fallback): Fixed offline loading hang issue. (Completed)
+Step 15 (Wallet Auto-Connect, Lobby Options & Fullscreen Fix): Implemented wallet auto-connect for standalone/offline mode, wired local Vs Computer and Host Wi-Fi lobby actions, and updated fullscreen/viewport scaling to 100vw/100dvh with safe try-catch handling. (Completed)

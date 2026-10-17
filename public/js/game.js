@@ -62,6 +62,17 @@
   window.appState = appState;
   window.isDealingOrFanning = false;
 
+  // Wallet Auto-Connect for Offline / APK Standalone Mode
+  document.addEventListener('DOMContentLoaded', () => {
+    const isOffline = (typeof io === 'undefined' || !socket || !socket.connected);
+    if (isOffline && window.UnoEconomy) {
+      const profile = window.UnoEconomy.getProfile();
+      appState.walletReady = true;
+      syncWalletBalance(profile.coins);
+      console.log('[Wallet] Auto-connected in offline/standalone mode. Coins:', profile.coins);
+    }
+  });
+
   function syncWalletBalance(coins) {
     if (!window.UnoEconomy?.setCoins(coins)) return;
     ['menu-coin-balance', 'shop-coin-balance'].forEach(id => {
@@ -339,18 +350,26 @@
     const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement
       || document.mozFullScreenElement || document.msFullscreenElement;
     if (!isFullscreen && !fullscreenRequestInFlight) {
-      if (elem.requestFullscreen) {
-        fullscreenRequestInFlight = true;
-        elem.requestFullscreen({ navigationUI: 'hide' })
-          .then(() => window.screen?.orientation?.lock?.('landscape'))
-          .catch(() => {})
-          .finally(() => { fullscreenRequestInFlight = false; });
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-        elem.mozRequestFullScreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
+      try {
+        if (elem.requestFullscreen) {
+          fullscreenRequestInFlight = true;
+          elem.requestFullscreen({ navigationUI: 'hide' })
+            .then(() => {
+              try {
+                window.screen?.orientation?.lock?.('landscape').catch(() => {});
+              } catch (_) {}
+            })
+            .catch(() => {})
+            .finally(() => { fullscreenRequestInFlight = false; });
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
+      } catch (err) {
+        fullscreenRequestInFlight = false;
       }
     }
   }
@@ -401,30 +420,12 @@
     const scaler = document.getElementById('screen-scaler');
     if (!scaler) return;
 
-    const isTouch = window.matchMedia('(pointer: coarse)').matches;
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
-    // Mobile / small viewport / touch screen
-    if (windowWidth <= 1024 || windowHeight <= 600 || isTouch) {
-      scaler.style.transform = 'translate(-50%, -50%) scale(1)';
-      scaler.style.width = '100%';
-      scaler.style.height = '100%';
-      relayoutPlayerHand();
-      return;
-    }
-
-    // Desktop PC scaling for 1200x800 design
-    const designWidth = 1200;
-    const designHeight = 800;
-
-    const scaleX = windowWidth / designWidth;
-    const scaleY = windowHeight / designHeight;
-    const scale = Math.min(scaleX, scaleY);
-
-    scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
-    scaler.style.width = '1200px';
-    scaler.style.height = '800px';
+    scaler.style.transform = 'translate(-50%, -50%) scale(1)';
+    scaler.style.width = '100vw';
+    scaler.style.height = '100dvh';
     relayoutPlayerHand();
   }
 
