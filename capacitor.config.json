@@ -1,0 +1,6 @@
+{
+  "appId": "com.uno.offline",
+  "appName": "UNO Offline",
+  "webDir": "public",
+  "bundledWebRuntime": false
+}

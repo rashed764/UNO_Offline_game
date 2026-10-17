@@ -47,6 +47,56 @@ function initApp() {
     });
   }
 
+  // Scan QR to Join Button
+  const btnShowQrScanner = document.getElementById('btn-show-qr-scanner');
+  const qrScannerModal = document.getElementById('qr-scanner-modal');
+  const btnScannerClose = document.getElementById('btn-scanner-close');
+  const btnScannerCancel = document.getElementById('btn-scanner-cancel');
+
+  if (btnShowQrScanner && qrScannerModal) {
+    btnShowQrScanner.addEventListener('click', () => {
+      qrScannerModal.classList.remove('hidden');
+      if (typeof startQrScanner === 'function') {
+        startQrScanner('qr-reader', (decodedText) => {
+          qrScannerModal.classList.add('hidden');
+          let roomCode = decodedText.trim();
+          if (window.LocalNetwork) {
+            roomCode = window.LocalNetwork.connectToHost(decodedText, (code) => {
+              roomCode = code;
+            });
+          }
+          if (roomCode.includes(':')) {
+            const parts = roomCode.split(':');
+            roomCode = parts[parts.length - 1].trim();
+          }
+          const roomCodeInput = document.getElementById('room-code-input');
+          const joinBox = document.getElementById('join-box');
+          if (roomCodeInput) roomCodeInput.value = roomCode;
+          if (joinBox) joinBox.classList.remove('hidden');
+          showToast(`📷 Scanned Room Code: ${roomCode}`);
+
+          const name = nameInput.value.trim() || 'Player 1';
+          appState.playerName = name;
+          socket.emit('join_room', { roomId: roomCode, playerName: name });
+        });
+      }
+    });
+  }
+
+  if (btnScannerClose) {
+    btnScannerClose.addEventListener('click', () => {
+      qrScannerModal.classList.add('hidden');
+      if (typeof stopQrScanner === 'function') stopQrScanner();
+    });
+  }
+
+  if (btnScannerCancel) {
+    btnScannerCancel.addEventListener('click', () => {
+      qrScannerModal.classList.add('hidden');
+      if (typeof stopQrScanner === 'function') stopQrScanner();
+    });
+  }
+
   // Join Room Button
   if (btnJoinRoom) {
     btnJoinRoom.addEventListener('click', () => {

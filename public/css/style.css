@@ -3189,3 +3189,41 @@ input[type="range"] {
   #btn-pass-turn { padding: 5px 9px; font-size: .68rem; }
 }
 
+/* QR Code & Scanner Styling */
+.host-qr-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px auto;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  width: fit-content;
+  max-width: 200px;
+}
+.host-qr-container img,
+.host-qr-container canvas {
+  display: block;
+  border-radius: 8px;
+}
+.qr-scanner-box {
+  max-width: 420px;
+  width: 90%;
+}
+.qr-reader-viewport {
+  width: 100%;
+  min-height: 280px;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.scanner-instruction {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+

@@ -574,6 +574,12 @@
       codeEl.textContent = roomId;
     }
 
+    const qrContainer = document.getElementById('host-qr-container');
+    if (qrContainer && typeof generateQRCode === 'function') {
+      const netInfo = window.LocalNetwork ? window.LocalNetwork.initHost(roomId) : { payload: roomId };
+      generateQRCode('host-qr-container', netInfo.payload || roomId);
+    }
+
     const playerList = players || (player ? [{ id: player.id, name: player.name, isHost: player.isHost }] : []);
     updatePlayersLobbyList(playerList);
 
