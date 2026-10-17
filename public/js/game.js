@@ -6,7 +6,31 @@
   'use strict';
 
   // 1. Establish Socket Connection
-  const socket = io();
+  const socket = (typeof io === 'function') ? io() : window.io();
+
+  // Startup Screen Setup & Readiness
+  function setupStartupScreen() {
+    const startupScreen = document.getElementById('startup-screen');
+    const startupStatus = document.getElementById('startup-status');
+    const startupStart = document.getElementById('startup-start');
+
+    if (startupStatus) startupStatus.textContent = 'Ready to play';
+    if (startupStart) {
+      startupStart.disabled = false;
+      startupStart.addEventListener('click', () => {
+        if (startupScreen) {
+          startupScreen.classList.add('fade-out');
+          setTimeout(() => startupScreen.remove(), 500);
+        }
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupStartupScreen);
+  } else {
+    setupStartupScreen();
+  }
 
   // 2. Authoritative Client-side App State
   const appState = {
@@ -572,6 +596,12 @@
     const codeEl = document.getElementById('lobby-room-code');
     if (codeEl) {
       codeEl.textContent = roomId;
+    }
+
+    const qrContainer = document.getElementById('host-qr-container');
+    if (qrContainer && typeof generateQRCode === 'function') {
+      const netInfo = window.LocalNetwork ? window.LocalNetwork.initHost(roomId) : { payload: roomId };
+      generateQRCode('host-qr-container', netInfo.payload || roomId);
     }
 
     const playerList = players || (player ? [{ id: player.id, name: player.name, isHost: player.isHost }] : []);

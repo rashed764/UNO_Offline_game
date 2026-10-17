@@ -13,7 +13,23 @@
   <title>UNO! 3D Classic - Offline & Local Network Multiplayer</title>
   <link rel="stylesheet" href="css/style.css?v=3.8">
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
-  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    if (typeof io === 'undefined') {
+      window.io = function() {
+        const listeners = {};
+        return {
+          on: (event, callback) => { listeners[event] = callback; },
+          emit: (event, data) => { console.log('Offline mock emit:', event, data); },
+          off: (event) => { delete listeners[event]; },
+          connected: false
+        };
+      };
+    }
+  </script>
+  <script src="socket.io/socket.io.js"></script>
+  <!-- QR Code & Scanner CDN Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
   <div class="app-background-glow"></div>
@@ -85,6 +101,14 @@
                 </div>
               </button>
 
+              <button id="btn-show-qr-scanner" class="btn-premium btn-scan-toggle">
+                <div class="btn-icon"><i class="fa-solid fa-qrcode"></i></div>
+                <div class="btn-info">
+                  <span class="btn-title">Scan QR to Join</span>
+                  <span class="btn-desc">Use Camera to Scan Lobby QR</span>
+                </div>
+              </button>
+
               <button id="btn-customize-layout" class="btn-premium btn-layout-toggle">
                 <div class="btn-icon"><i class="fa-solid fa-sliders"></i></div>
                 <div class="btn-info">
@@ -126,9 +150,11 @@
                 <span class="code-label">ROOM LOBBY CODE</span>
                 <div id="lobby-room-code" class="highlight-code">------</div>
               </div>
+              <!-- Host QR Code Container -->
+              <div id="host-qr-container" class="host-qr-container" aria-label="Room QR Code"></div>
               <p id="lobby-wager-info" class="lobby-wager-info"></p>
               <p class="lan-instruction">
-                <i class="fa-solid fa-circle-info"></i> Ask friends on the same Wi-Fi network to use this Room Code to join!
+                <i class="fa-solid fa-circle-info"></i> Ask friends on the same Wi-Fi network to use this Room Code or scan QR to join!
               </p>
             </div>
 
@@ -253,6 +279,23 @@
       </main>
 
       <!-- OVERLAYS & MODALS -->
+
+      <!-- QR Scanner Modal -->
+      <div id="qr-scanner-modal" class="modal-overlay hidden">
+        <div class="modal-content qr-scanner-box animate-scale-up glass-morphic" role="dialog" aria-modal="true" aria-labelledby="qr-scanner-title">
+          <div class="modal-header">
+            <h3 id="qr-scanner-title"><i class="fa-solid fa-qrcode"></i> Scan Lobby QR Code</h3>
+            <button id="btn-scanner-close" class="drawer-close-btn" aria-label="Close scanner"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body">
+            <div id="qr-reader" class="qr-reader-viewport"></div>
+            <p class="scanner-instruction">Position the host's lobby QR code inside the camera frame to join automatically.</p>
+          </div>
+          <div class="modal-footer-actions">
+            <button id="btn-scanner-cancel" class="btn btn-secondary-3d">Cancel</button>
+          </div>
+        </div>
+      </div>
 
       <!-- Dynamic Color Picker Modal for Wild Cards -->
       <div id="color-picker-modal" class="modal-overlay wild-color-overlay hidden">
@@ -445,6 +488,11 @@
   <script src="js/theme-catalog.js?v=2"></script>
   <script src="js/economy.js?v=2"></script>
   <script src="js/game-effects.js"></script>
+  <script src="js/qr-helper.js"></script>
+  <script src="js/local-network.js"></script>
+  <script src="src/game/GameEngine.js"></script>
+  <script src="src/game/BotPlayer.js"></script>
   <script src="js/game.js?v=2.23"></script>
+  <script src="js/local-game.js?v=1.0"></script>
 </body>
 </html>

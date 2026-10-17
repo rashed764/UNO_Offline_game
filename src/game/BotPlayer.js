@@ -86,4 +86,8 @@ class BotPlayer {
   }
 }
 
-module.exports = BotPlayer;
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = BotPlayer;
+} else {
+  window.BotPlayer = BotPlayer;
+}

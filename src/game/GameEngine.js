@@ -503,4 +503,8 @@ class GameEngine {
   }
 }
 
-module.exports = GameEngine;
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = GameEngine;
+} else {
+  window.GameEngine = GameEngine;
+}
