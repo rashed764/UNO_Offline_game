@@ -12,4 +12,5 @@ Step 11 (QR Code & Camera Scanning): Integrated QR code generation and scanning 
 Step 12 (Local Network & Hotspot Connection): Implemented public/js/local-network.js. (Completed)
 Step 13 (Capacitor & GitHub Actions APK Pipeline): Configured capacitor.config.json and GitHub Actions build-apk.yml. (Completed)
 Step 14 (Offline APK Loading Screen & Socket Fallback): Fixed offline loading hang issue. (Completed)
-Step 15 (Wallet Auto-Connect, Lobby Options & Fullscreen Fix): Implemented wallet auto-connect for standalone/offline mode, wired local Vs Computer and Host Wi-Fi lobby actions, and updated fullscreen/viewport scaling to 100vw/100dvh with safe try-catch handling. (Completed)
+Step 15 (Wallet Auto-Connect, Lobby Options & Fullscreen Fix): Implemented wallet auto-connect for standalone/offline mode, wired local Vs Computer and Host Wi-Fi lobby actions, and updated fullscreen/viewport scaling. (Completed)
+Step 16 (Strict Landscape Orientation & Final Offline Polish): Enforced strict landscape orientation lock via screen.orientation.lock('landscape') and manifest settings, updated Capacitor config and webmanifest, and verified all offline lobby, wallet, and start match wiring. (Completed)

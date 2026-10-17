@@ -8,16 +8,30 @@
   // 1. Establish Socket Connection
   const socket = (typeof io === 'function') ? io() : window.io();
 
-  // Startup Screen Setup & Readiness
+  // Startup Screen Setup & Readiness & Strict Landscape Lock
   function setupStartupScreen() {
     const startupScreen = document.getElementById('startup-screen');
     const startupStatus = document.getElementById('startup-status');
     const startupStart = document.getElementById('startup-start');
 
+    // Attempt to lock screen orientation to landscape immediately
+    try {
+      if (window.screen?.orientation?.lock) {
+        window.screen.orientation.lock('landscape').catch(() => {});
+      }
+    } catch (_) {}
+
     if (startupStatus) startupStatus.textContent = 'Ready to play';
     if (startupStart) {
       startupStart.disabled = false;
       startupStart.addEventListener('click', () => {
+        try {
+          if (window.screen?.orientation?.lock) {
+            window.screen.orientation.lock('landscape').catch(() => {});
+          }
+          requestFullscreenApp();
+        } catch (_) {}
+
         if (startupScreen) {
           startupScreen.classList.add('fade-out');
           setTimeout(() => startupScreen.remove(), 500);
